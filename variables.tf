@@ -4,6 +4,16 @@ variable "resource_group_name" {
   description = "The name of an existing Resource Group to deploy the security services into."
 }
 
+variable "associated_subnet_name" {
+  type        = string
+  description = "The name of the Azure networking subnet to associate this Network Security Group with."
+}
+
+variable "associated_virtual_network_name" {
+  type        = string
+  description = "The name of the Azure virtual network in which the subnet resides within to associate this Network Security Group with."
+}
+
 #Optional Variables
 variable "prefix" {
   type        = list(string)
@@ -20,25 +30,9 @@ variable "suffix" {
 variable "security_rule_names" {
   type        = set(string)
   description = "A list of security rule names that are preconfigured within the Network Security Group module."
-  default     = ["deny_all_inbound_access", "deny_all_outbound_access"]
+  default     = ["DenyInternetInBound", "DenyInternetOutBound"]
+  #To specify an empty Network Security Group, a Network Security Group with no associated rules define an empty set []
 }
 
-variable "custom_security_rules" {
-  type = map(object({
-    priority                                                   = number
-    direction                                                  = string
-    access                                                     = string
-    protocol                                                   = string
-    source_port_ranges                                         = list(string)
-    source_address_prefixes                                    = list(string)
-    destination_port_ranges                                    = list(string)
-    destination_address_prefixes                               = list(string)
-    destination_application_security_group_name                = string
-    destination_application_security_group_resource_group_name = string
-    })
-  )
-  description = "A list of security rule maps that can be used to define custom security rules to apply to the Network Security Group."
-  default     = {}
-}
 
 
