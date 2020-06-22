@@ -4,13 +4,13 @@ provider "azurerm" {
 }
 
 module "naming" {
-  source = "git@github.com:Azure/terraform-azurerm-naming"
+  source = "git::https://github.com/Azure/terraform-azurerm-naming"
   prefix = var.prefix
   suffix = var.suffix
 }
 
 module "rules"{
-  source = "git@github.com:Azure/terraform-azurerm-sec-network-security-group-rules"
+  source = "git::https://github.com/Azure/terraform-azurerm-sec-network-security-group-rules"
 }
 
 locals {
