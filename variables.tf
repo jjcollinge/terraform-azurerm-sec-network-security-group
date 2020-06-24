@@ -34,5 +34,6 @@ variable "security_rule_names" {
   #To specify an empty Network Security Group, a Network Security Group with no associated rules define an empty set []
 }
 
-
-
+variable "module_depends_on" {
+  default = [""]
+}
