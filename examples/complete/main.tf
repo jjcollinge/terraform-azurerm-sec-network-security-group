@@ -37,7 +37,7 @@ module "predefined_nsg" {
   associated_subnet_name          = azurerm_subnet.example_subnet_predefined_nsg.name
   prefix                          = [local.unique_name_stub]
   suffix                          = [local.unique_name_stub]
-  security_rule_names             = ["DenyInternetInBound", "DenyInternetOutBound"]
+  security_rule_names             = ["DenyInternetInbound", "DenyInternetOutbound"]
 }
 
 /* resource "azurerm_subnet" "example_subnet_empty_nsg" {
