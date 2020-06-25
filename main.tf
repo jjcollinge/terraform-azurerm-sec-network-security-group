@@ -33,9 +33,11 @@ resource "azurerm_network_security_rule" "built_in_network_security_rule" {
   direction                   = module.rules.configurations[each.value].direction
   access                      = module.rules.configurations[each.value].access
   protocol                    = module.rules.configurations[each.value].protocol
-  source_port_ranges          = module.rules.configurations[each.value].source_port_ranges
+  source_port_range           = lookup(module.rules.configurations[each.value], "source_port_range", null)
+  source_port_ranges          = lookup(module.rules.configurations[each.value], "source_port_ranges",  null)
   source_address_prefix       = module.rules.configurations[each.value].source_address_prefix
-  destination_port_ranges     = module.rules.configurations[each.value].destination_port_ranges
+  destination_port_range      = lookup(module.rules.configurations[each.value], "destination_port_range", null)
+  destination_port_ranges     = lookup(module.rules.configurations[each.value], "destination_port_ranges", null)
   destination_address_prefix  = module.rules.configurations[each.value].destination_address_prefix
 }
 
