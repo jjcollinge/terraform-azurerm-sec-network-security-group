@@ -9,12 +9,13 @@ module "naming" {
   suffix = var.suffix
 }
 
-module "rules"{
+module "rules" {
   source = "git::https://github.com/Azure/terraform-azurerm-sec-network-security-group-rules"
 }
 
 locals {
-  predefined_rule_names = setintersection(module.rules.names, var.security_rule_names)
+  predefined_rule_names_list = tolist(setintersection(module.rules.names, var.security_rule_names))
+  predefined_rule_names = {for r in local.predefined_rule_names_list: index(local.predefined_rule_names_list, r) => r}
 }
 
 resource "azurerm_network_security_group" "network_security_group" {
@@ -24,18 +25,18 @@ resource "azurerm_network_security_group" "network_security_group" {
 }
 
 resource "azurerm_network_security_rule" "built_in_network_security_rule" {
-  for_each                                   = local.predefined_rule_names
-  resource_group_name                        = data.azurerm_resource_group.base.name
-  network_security_group_name                = azurerm_network_security_group.network_security_group.name
-  name                                       = each.value
-  priority                                   = module.rules.configurations[each.value].priority
-  direction                                  = module.rules.configurations[each.value].direction
-  access                                     = module.rules.configurations[each.value].access
-  protocol                                   = module.rules.configurations[each.value].protocol
-  source_port_range                          = module.rules.configurations[each.value].source_port_range
-  source_address_prefix                      = module.rules.configurations[each.value].source_address_prefix
-  destination_port_range                     = module.rules.configurations[each.value].destination_port_range
-  destination_address_prefix                 = module.rules.configurations[each.value].destination_address_prefix
+  for_each                    = local.predefined_rule_names
+  resource_group_name         = data.azurerm_resource_group.base.name
+  network_security_group_name = azurerm_network_security_group.network_security_group.name
+  name                        = each.value
+  priority                    = 4096 - tonumber(each.key)
+  direction                   = module.rules.configurations[each.value].direction
+  access                      = module.rules.configurations[each.value].access
+  protocol                    = module.rules.configurations[each.value].protocol
+  source_port_ranges          = module.rules.configurations[each.value].source_port_ranges
+  source_address_prefix       = module.rules.configurations[each.value].source_address_prefix
+  destination_port_ranges     = module.rules.configurations[each.value].destination_port_ranges
+  destination_address_prefix  = module.rules.configurations[each.value].destination_address_prefix
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_asso" {
