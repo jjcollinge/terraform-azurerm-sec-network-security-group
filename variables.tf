@@ -9,11 +9,6 @@ variable "associated_subnet_id" {
   description = "The id of the Azure networking subnet to associate this Network Security Group with."
 }
 
-variable "associated_virtual_network_name" {
-  type        = string
-  description = "The name of the Azure virtual network in which the subnet resides within to associate this Network Security Group with."
-}
-
 #Optional Variables
 variable "prefix" {
   type        = list(string)
