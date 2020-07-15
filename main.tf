@@ -42,7 +42,7 @@ resource "azurerm_network_security_rule" "built_in_network_security_rule" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg_asso" {
-  subnet_id                 = data.azurerm_subnet.associated_subnet.id
+  subnet_id                 = var.associated_subnet_id
   network_security_group_id = azurerm_network_security_group.network_security_group.id
   depends_on                = [null_resource.module_depends_on]
 }

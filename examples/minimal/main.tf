@@ -34,5 +34,5 @@ module "nsg" {
   source                          = "../../"
   resource_group_name             = azurerm_resource_group.test_group.name
   associated_virtual_network_name = azurerm_virtual_network.example_vnet.name
-  associated_subnet_name          = azurerm_subnet.example_subnet.name
+  associated_subnet_id            = azurerm_subnet.example_subnet.id
 }

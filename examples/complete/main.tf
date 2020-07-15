@@ -34,7 +34,7 @@ module "predefined_nsg" {
   source                          = "../../"
   resource_group_name             = azurerm_resource_group.test_group.name
   associated_virtual_network_name = azurerm_virtual_network.example_vnet.name
-  associated_subnet_name          = azurerm_subnet.example_subnet_predefined_nsg.name
+  associated_subnet_id            = azurerm_subnet.example_subnet_predefined_nsg.id
   prefix                          = [local.unique_name_stub]
   suffix                          = [local.unique_name_stub]
   security_rule_names             = ["DenyInternetInbound", "DenyInternetOutbound"]
